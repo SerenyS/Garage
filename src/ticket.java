@@ -1,3 +1,5 @@
+import java.sql.Time;
+
 public class ticket {
 
 
@@ -7,7 +9,10 @@ public class ticket {
 
     private int total;
 
+    private int TimeInGarage;
+
     private static int id;
+
 
     private int randomTimeIn = (int) ((int) 7 + (Math.random() * (12 - 7)));
     private int randomTimeOut = (int) ((int) 1 + (Math.random() * (11 - 1)));
@@ -18,20 +23,43 @@ public class ticket {
         id++;
     }
 
-    public int getId() {
-        return id;
-    }
-
 
     public void setCheckInTime(int randomTimeIn) {
 
         this.checkInTime = randomTimeIn;
     }
 
+
     public void setCheckOutTime(int randomTimeOut) {
 
         this.checkOutTime = randomTimeOut;
     }
+
+
+    public int getTotal() {
+
+        if (getTimeInGarage() != 0 && getTimeInGarage() <= 3) {
+            total = 5;
+        } else if (getTimeInGarage() > 3 && getTimeInGarage() <= 12) {
+            total = (5 + (getTimeInGarage()) - 3);
+        } else if (getTimeInGarage() >= 13) {
+            total = 15;
+        } else if (TimeInGarage ==0){
+            total =25;
+        }
+
+        return total;
+    }
+
+    public int getTimeInGarage() {
+        TimeInGarage = (getCheckOutTime() + 12) - getCheckInTime();
+        return TimeInGarage;
+    }
+
+    public void setTimeInGarage(int timeInGarage) {
+        TimeInGarage = timeInGarage;
+    }
+
 
 
     public int getCheckInTime() {
@@ -44,32 +72,6 @@ public class ticket {
         return checkOutTime;
     }
 
-
-    public int getTimeInGarage() {
-        int timePeriod = (getCheckOutTime() + 12) - getCheckInTime();
-        return timePeriod;
-    }
-
-    public int getTotal() {
-        this.total = (5 + (getTimeInGarage()));
-        if (total < 15) {
-            return total;
-        } else {
-            total = 15;
-            return total;
-        }
-    }
-
-    public int setTotal(int total) {
-        int lost = 25;
-        this.total = lost;
-        return lost;
-    }
-
-    public String toStringId() {
-        return "Ticket Number : " + getId();
-
-    }
 
     public String toStringTimePeriod() {
         return "This Ticket " +
@@ -89,4 +91,9 @@ public class ticket {
         return "Total hours in Garage " +
                 getTimeInGarage() + " hours";
     }
+
+    public String toStringID (){
+        return "ID:"+id;
+    }
+
 }

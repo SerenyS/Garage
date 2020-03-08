@@ -1,10 +1,9 @@
-import java.io.File;
-import java.io.FileInputStream;
+
+import java.sql.Array;
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.Scanner;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.zip.CheckedOutputStream;
+
 
 public class Garage {
 
@@ -12,18 +11,26 @@ public class Garage {
 
     private static ArrayList<ticket> TicketList = new ArrayList<>();
 
+    private static ArrayList<ticket> LostList = new ArrayList<>();
 
-    public static void main(String[] args) throws IOException {
+    public static int totalAmount;
+
+
+    ticketReader existingTickets = new ticketReader("Tickets.csv");
+    ticketWriter writingData = new ticketWriter("Tickets.csv");
+
+
+    public static void main(String[] args) {
         Main();
     }
 
-    public static void Main() throws IOException {
+    public static void Main() {
         checkIn();
         checkOut();
         Main();
     }
 
-    public static void checkIn() throws IOException {
+    public static void checkIn() {
         System.out.println("1 - Check In");
         System.out.println("2 - Close Garage");
 
@@ -37,6 +44,14 @@ public class Garage {
 
         } else if (checkInResponse.equals("2")) {
 
+            int totalAmount =0;
+
+            for (int i = 0; i < TicketList.size(); i++) {
+                int thisTicketTotal = TicketList.get(i).getTotal();
+                totalAmount += thisTicketTotal;
+            }
+            System.out.println("Total for tickets up to today: $"+ totalAmount);
+
 
         }
     }
@@ -48,39 +63,28 @@ public class Garage {
         String checkOutResponse = keyboard.nextLine();
 
         if (checkOutResponse.equals("1")) {
-            System.out.println("Enter your ticket number ");
-            String ticketNumber = keyboard.nextLine();
-            int parseTicketNumber = Integer.parseInt(ticketNumber);
+            ticket mostRecent = TicketList.get(TicketList.size() - 1);
+            System.out.println(mostRecent.toStringTotal());
+            System.out.println(mostRecent.toStringPeriod());
+            System.out.println(mostRecent.toStringTimePeriod());
 
 
-            for (int i = 0; i < TicketList.size(); i++) {
-
-                if (parseTicketNumber == TicketList.get(i).getId()) {
-
-                    System.out.println(TicketList.get(i).toStringId());
-                    System.out.println(TicketList.get(i).toStringTotal());
-                    System.out.println(TicketList.get(i).toStringTimePeriod());
-                    System.out.println(TicketList.get(i).toStringPeriod());
-                }
-            }
         } else if (checkOutResponse.equals("2")) {
-            System.out.println("Enter your ticket number ");
-            String ticketNumber = keyboard.nextLine();
-            int parseTicketNumber = Integer.parseInt(ticketNumber);
+            ticket mostRecent = TicketList.get(TicketList.size() - 1);
+            mostRecent.setTimeInGarage(0);
+            System.out.println(mostRecent.toStringTotal());
+            LostList.add(mostRecent);
 
-
-            for (int i = 0; i < TicketList.size(); i++) {
-
-                if (parseTicketNumber == TicketList.get(i).getId()) {
-
-                    int LostTicketAmount = TicketList.get(i).setTotal(TicketList.get(i).getTotal());
-
-                    System.out.println("Your total for ticket number " + TicketList.get(i).getId());
-                    System.out.println("is = $" + LostTicketAmount + ".00");
-
-
-                }
-            }
         }
     }
+
+    public static void readingData() {
+
+    }
+
+    public static void writingData(ticketReader existingTickets) {
+
+    }
+
+
 }
