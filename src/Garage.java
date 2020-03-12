@@ -25,14 +25,8 @@ public class Garage {
     private static int checkInAmount;
 
 
-    public static void main(String[] args) {
-        reader.fileRead();
-        reader.fileClose();
-        Main();
-    }
-
     public static void Main() {
-
+        reader.fileRead();
         checkIn();
         checkOut();
         Main();
@@ -60,17 +54,12 @@ public class Garage {
             for (ticket ticket : TicketList) {
                 int thisTicketTotal = ticket.getTotal();
                 totalAmount += thisTicketTotal;
+                writer.fileWrite(thisTicketTotal);
+
             }
             System.out.println("$" + checkInAmount + " was collected from " + checkInCount + " Check Ins");
             System.out.println("$" + lostTicketAmount + "  was collected from " + lostTicketCount + " Lost Tickets");
             System.out.println("Amount that was collected overall $" + totalAmount);
-
-            for (ticket ticket : TicketList) {
-                int thisTicketTotal = ticket.getTotal();
-                writer.fileWrite(thisTicketTotal);
-            }
-
-            writer.fileClose();
             System.exit(0);
 
         }

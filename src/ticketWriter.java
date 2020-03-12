@@ -11,7 +11,7 @@ public class ticketWriter {
         try {
             out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(fileName)));
         } catch (FileNotFoundException e) {
-            System.out.println("File Open Error: " + fileName + " " + e);
+            System.out.println("File Open Error: ticketWriter" + fileName + " " + e);
         }
     }
 
@@ -19,7 +19,7 @@ public class ticketWriter {
         try {
             out.write(total+"\n");
         } catch (Exception e) {
-            System.out.println("File Write Error: " + fileName + " " + e);
+            System.out.println("File Write Error fileWrite: " + fileName + " " + e);
         }
     }
 

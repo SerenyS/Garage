@@ -30,7 +30,7 @@ public class ticketReader {
 
             }
         } catch (Exception e) {
-            System.out.println("File Write Error: " + fileName + " " + e);
+            System.out.println("File Write Error: fileRead " + fileName + " " + e);
         }
     }
 
@@ -39,7 +39,7 @@ public class ticketReader {
             String line = in.readLine();
             return line;
         } catch (Exception e) {
-            System.out.println("File Write Error: " + fileName + " " + e);
+            System.out.println("File Write Error: fileReadLine " + fileName + " " + e);
             return null;
         }
     }
