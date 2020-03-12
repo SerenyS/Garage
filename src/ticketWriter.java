@@ -1,13 +1,13 @@
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class ticketWriter {
 
     Writer out = null;
-    private String fileName;
+    private File fileName;
 
-    public ticketWriter(String fileName) {
-        this.fileName = fileName;
+    public ticketWriter(File fileName) {
         try {
             out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(fileName)));
         } catch (FileNotFoundException e) {
@@ -15,9 +15,9 @@ public class ticketWriter {
         }
     }
 
-    public void fileWrite(String line) {
+    public void fileWrite(int total) {
         try {
-            out.write(line + "\n");
+            out.write(total+"\n");
         } catch (Exception e) {
             System.out.println("File Write Error: " + fileName + " " + e);
         }
@@ -31,5 +31,7 @@ public class ticketWriter {
                 e.printStackTrace();
             }
         }
+
     }
 }
+

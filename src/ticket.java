@@ -1,5 +1,3 @@
-import java.sql.Time;
-
 public class ticket {
 
 
@@ -12,6 +10,7 @@ public class ticket {
     private int TimeInGarage;
 
     private static int id;
+    private boolean lostTicket = false;
 
 
     private int randomTimeIn = (int) ((int) 7 + (Math.random() * (12 - 7)));
@@ -22,7 +21,6 @@ public class ticket {
         setCheckOutTime(randomTimeOut);
         id++;
     }
-
 
     public void setCheckInTime(int randomTimeIn) {
 
@@ -35,31 +33,26 @@ public class ticket {
         this.checkOutTime = randomTimeOut;
     }
 
-
     public int getTotal() {
-
-        if (getTimeInGarage() != 0 && getTimeInGarage() <= 3) {
+        if (getTimeInGarage() != 0 && getTimeInGarage() <= 3 && lostTicket == false) {
             total = 5;
-        } else if (getTimeInGarage() > 3 && getTimeInGarage() <= 12) {
+        } else if (getTimeInGarage() > 3 && getTimeInGarage() <= 12 && lostTicket == false) {
             total = (5 + (getTimeInGarage()) - 3);
-        } else if (getTimeInGarage() >= 13) {
+        } else if (getTimeInGarage() >= 13 && lostTicket == false) {
             total = 15;
-        } else if (TimeInGarage ==0){
-            total =25;
-        }
+        } else if (lostTicket == true) {
+            total = 25;
 
+        }
         return total;
+
     }
+
 
     public int getTimeInGarage() {
         TimeInGarage = (getCheckOutTime() + 12) - getCheckInTime();
         return TimeInGarage;
     }
-
-    public void setTimeInGarage(int timeInGarage) {
-        TimeInGarage = timeInGarage;
-    }
-
 
 
     public int getCheckInTime() {
@@ -92,8 +85,15 @@ public class ticket {
                 getTimeInGarage() + " hours";
     }
 
-    public String toStringID (){
-        return "ID:"+id;
+    public String toStringID() {
+        return "ID:" + id;
     }
 
+    public boolean isLostTicket() {
+        return lostTicket;
+    }
+
+    public void setLostTicket(boolean lostTicket) {
+        this.lostTicket = lostTicket;
+    }
 }

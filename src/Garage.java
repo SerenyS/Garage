@@ -1,4 +1,6 @@
 
+import java.io.File;
+import java.io.IOException;
 import java.sql.Array;
 import java.sql.SQLOutput;
 import java.util.ArrayList;
@@ -11,20 +13,26 @@ public class Garage {
 
     private static ArrayList<ticket> TicketList = new ArrayList<>();
 
-    private static ArrayList<ticket> LostList = new ArrayList<>();
+    private static File file = new File("tickets.txt");
 
-    public static int totalAmount;
+    public static ticketReader reader = new ticketReader(file);
+    public static ticketWriter writer = new ticketWriter(file);
 
-
-    ticketReader existingTickets = new ticketReader("Tickets.csv");
-    ticketWriter writingData = new ticketWriter("Tickets.csv");
+    private static int lostTicketCount;
+    private static int checkInCount;
+    private static int totalAmount;
+    private static int lostTicketAmount;
+    private static int checkInAmount;
 
 
     public static void main(String[] args) {
+        reader.fileRead();
+        reader.fileClose();
         Main();
     }
 
     public static void Main() {
+
         checkIn();
         checkOut();
         Main();
@@ -44,14 +52,26 @@ public class Garage {
 
         } else if (checkInResponse.equals("2")) {
 
-            int totalAmount =0;
+            if (TicketList.isEmpty()) {
+                System.out.println("No Check Ins Records");
+                Main();
+            }
 
-            for (int i = 0; i < TicketList.size(); i++) {
-                int thisTicketTotal = TicketList.get(i).getTotal();
+            for (ticket ticket : TicketList) {
+                int thisTicketTotal = ticket.getTotal();
                 totalAmount += thisTicketTotal;
             }
-            System.out.println("Total for tickets up to today: $"+ totalAmount);
+            System.out.println("$" + checkInAmount + " was collected from " + checkInCount + " Check Ins");
+            System.out.println("$" + lostTicketAmount + "  was collected from " + lostTicketCount + " Lost Tickets");
+            System.out.println("Amount that was collected overall $" + totalAmount);
 
+            for (ticket ticket : TicketList) {
+                int thisTicketTotal = ticket.getTotal();
+                writer.fileWrite(thisTicketTotal);
+            }
+
+            writer.fileClose();
+            System.exit(0);
 
         }
     }
@@ -64,6 +84,11 @@ public class Garage {
 
         if (checkOutResponse.equals("1")) {
             ticket mostRecent = TicketList.get(TicketList.size() - 1);
+
+            checkInCount++;
+            checkInAmount += mostRecent.getTotal();
+
+            System.out.println(mostRecent.toStringID());
             System.out.println(mostRecent.toStringTotal());
             System.out.println(mostRecent.toStringPeriod());
             System.out.println(mostRecent.toStringTimePeriod());
@@ -71,19 +96,18 @@ public class Garage {
 
         } else if (checkOutResponse.equals("2")) {
             ticket mostRecent = TicketList.get(TicketList.size() - 1);
-            mostRecent.setTimeInGarage(0);
+
+            mostRecent.setLostTicket(true);
+
+            lostTicketAmount += mostRecent.getTotal();
+            lostTicketCount++;
+
+
+            System.out.println(mostRecent.toStringID());
             System.out.println(mostRecent.toStringTotal());
-            LostList.add(mostRecent);
+
 
         }
-    }
-
-    public static void readingData() {
-
-    }
-
-    public static void writingData(ticketReader existingTickets) {
-
     }
 
 
