@@ -1,0 +1,6 @@
+For my UNIT 3 project I used Strategy Factory to create a simpler system to create
+different ticket types and modify the properties of each. I created a two interfaces
+one for Tickets and one for the TicketFactory. Ticket was implemented on the different
+tickets possible and their properties. TicketFactory was implemented on "TicketType" class
+to help determine what ticket was created. All the input and output was managed by the
+Garage class.

@@ -1,8 +1,6 @@
+package Unit2;
 
 import java.io.File;
-import java.io.IOException;
-import java.sql.Array;
-import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -13,7 +11,7 @@ public class Garage {
 
     private static ArrayList<ticket> TicketList = new ArrayList<>();
 
-    private static File file = new File("tickets.txt");
+    private static File file = new File("Unit2/tickets.txt");
 
     public static ticketReader reader = new ticketReader(file);
     public static ticketWriter writer = new ticketWriter(file);
